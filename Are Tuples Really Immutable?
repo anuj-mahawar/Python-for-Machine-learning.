@@ -1,0 +1,138 @@
+Python Tuples are Immutable,except when they are mutable
+# The variable trash refers to an object that has a value of 24, a type of int, and an identity of 140727009908256
+trash = 24
+type(trash)
+int
+id(trash)
+140727009908256
+#Let's try changing an object's value by entering the following into the interactive shell:
+trash = 42
+#You may think you've changed the object's value from 42 to 99, but you haven't. 
+#All you've done is made trash refer to a new object.
+id(trash)
+140727009908832
+animals = ['cats','dogs','fishes']
+id(animals)
+1179179422472
+jungle = animals
+# copies the reference, not the list
+animals
+['cats', 'dogs', 'fishes']
+jungle
+['cats', 'dogs', 'fishes']
+id(jungle)
+1179179422472
+animals.append('tigers')
+animals
+['cats', 'dogs', 'fishes', 'tigers']
+jungle
+#The reason jungle has changed even though we only appended a value to animals is because animals and jungle 
+#refer to the same object. The jungle = animals line made a copy of the reference, not the object
+['cats', 'dogs', 'fishes', 'tigers']
+id(animals)
+1179179422472
+id(jungle)
+1179179422472
+"""
+Immutability states - 
+#An object with a fixed value. Immutable objects include numbers, strings and tuples. 
+#Such an object cannot be altered. A new object has to be created if a different value has to be stored.
+Whereas Mutability states -
+Mutable objects can change their value but keep their id()
+"""
+'Immutability states - \n#An object with a fixed value. Immutable objects include numbers, strings and tuples. \n#Such an object cannot be altered. A new object has to be created if a different value has to be stored.\nWhereas Mutability states -\nMutable objects can change their value but keep their id()\n'
+# == vs is
+# The == equality operator compares values, while the is operator compares identities
+id(jungle) == id(animals)
+True
+jungle == animals
+True
+animals is jungle
+True
+pets = ['cats','dogs','fishes','tigers']
+pets == animals #Pets and Animals have the same value
+True
+id(animals) == id(pets) #Both are different object
+False
+animals is pets #Two different objects may share the same value, but they will never share the same identity
+False
+Hashability
+#  "An object is hashable if it has a hash value which never changes during its lifetime", that is, if the object is immutable.
+hash('dogs')
+-3856333412822961848
+animals = ('dogs','cats')
+jungle = ('dogs','cats')
+animals == jungle #Both have the same value
+True
+animals is jungle #Both are different objects with different identities
+False
+hash(animals) == hash(jungle) #Both have the same hash
+True
+# Immutable objects can be hashable, mutable objects can't be hashable.
+# Since hashes are based on values and only immutable objects can be hashable, 
+#this means that hashes will never change during the object's lifetime.
+# only hashable objects can be used as keys in a dictionary or as items in a set.
+spam = {'dogs': 42, True: 'hello', ('a', 'b', 'c'): ['hello']}
+spam.keys()
+dict_keys(['dogs', True, ('a', 'b', 'c')])
+"""
+All the keys in spam are immutable, hashable objects. If you try to call hash() on a mutable object (such as a list), 
+or try to use a mutable object for a dictionary key, you'll get an error:
+"""
+spam = {['hello', 'world']: 42}
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-56-d3b421304bd1> in <module>
+      3 or try to use a mutable object for a dictionary key, you'll get an error:
+      4 """
+----> 5 spam = {['hello', 'world']: 42}
+
+TypeError: unhashable type: 'list'
+d = {'a': 1}
+spam = {d: 42}
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-58-5ae2412ec762> in <module>
+----> 1 spam = {d: 42}
+
+TypeError: unhashable type: 'dict'
+#Tuples, being immutable objects, can be used as dictionary keys:
+spam = {('a', 'b', 'c'): 'hello'} 
+#...or can they?:
+spam = {('a', 'b', [1, 2, 3]): 'hello'}
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-60-ce8894cbe02d> in <module>
+      2 spam = {('a', 'b', 'c'): 'hello'}
+      3 #...or can they?:
+----> 4 spam = {('a', 'b', [1, 2, 3]): 'hello'}
+
+TypeError: unhashable type: 'list'
+Conclusion
+"""In one sense, tuples are immutable because the objects in a tuple 
+cannot be deleted or replaced by new objects. Just like spam = 42; spam = 99 doesn't change the 42 object in spam; 
+it replaces it with an entirely new object, 99. 
+If we use the interactive shell to look at a tuple that contains a list:
+"""
+spam = ('dogs', 'cats', [1, 2, 3])
+id(spam[0]), id(spam[1]), id(spam[2])
+# The same objects will always be in this tuple, and they will always have the same identities in the same order:
+#Tuples are immutable.
+(1179180201608, 1179154386992, 1179213053384)
+#However in another sense, tuples are mutable because their values can be changed
+a = ('dogs', 'cats', [1, 2, 3])
+b = ('dogs', 'cats', [1, 2, 3])
+a == b
+True
+a is b
+False
+a[2].append(99)
+a
+('dogs', 'cats', [1, 2, 3, 99])
+a == b
+False
+b
+('dogs', 'cats', [1, 2, 3])
+a is b
+False
+#We have changed the a's value. Now a is no longer equal to b and we didn't change b's value. Tuples are mutable.
